@@ -1,54 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { API_URL } from "../../../constants";  // Importing the correct API_URL
+import { API_URL } from "../../../constants";
+import { Link } from "react-router-dom";
 
 const PostList = () => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    // Fetch posts from API
-    useEffect(() => {
-        const fetchPosts = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(API_URL);
-                console.log("Response Status:", response.status);  // Debugging
-    
-                if (!response.ok) {
-                    throw new Error(`Error ${response.status}: ${response.statusText}`);
-                }
-    
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    const data = await response.json();
-                    setPosts(data);
-                } else {
-                    throw new Error("Expected JSON but got something else");
-                }
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
-        fetchPosts();
-    }, []);
-    
-    
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+  // Fetch posts from API
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null); // Reset the error before fetching
 
-    return (
-        <div>
-            {posts.map((post) => (
-                <div key={post.id}>
-                    <h2>{post.title}</h2>
-                    <p>{post.body}</p>
-                </div>
-            ))}
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          throw new Error("Expected JSON but got something else");
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false); // End loading regardless of success or failure
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Render loading state
+  if (loading) return <p className="loading">Loading...</p>;
+
+  // Render error state
+  if (error) return <p className="error">Error: {error}</p>;
+
+  // Render posts if successful
+  return (
+    <div className="post-list">
+      {posts.map((post) => (
+        <div className="post" key={post.id}>
+          <Link to={`/posts/${post.id}`}>
+            <h2>{post.title}</h2>
+          </Link>
+          <img
+            src={post.image_file_name ? post.image_file_name : "blog_image.jpg"}
+            alt={post.title}
+            style={{ width: "500px", height: "200px" }}
+          />
+          <p>{post.body}</p>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default PostList;

@@ -10,7 +10,7 @@ const NavBar = () => {
       {' | '}
       <Link to="/recent">Latest Post</Link>
       {' | '}
-      <Link to="/new">Add New Post</Link>
+      <Link to="/new">Create New Post</Link>
       {' | '}
       <Link to="/sign_in">Sign In</Link>
       {' | '}

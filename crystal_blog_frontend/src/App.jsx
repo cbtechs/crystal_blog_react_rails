@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 import PostDetails from './features/posts/PostDetails';
+import CreatePost from './features/posts/CreatePost';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PostList />} />
             <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/new" element={<CreatePost />} />
           </Routes>
         </main>
         <aside className="sidebar">

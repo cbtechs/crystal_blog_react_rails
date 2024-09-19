@@ -53,9 +53,10 @@ const PostList = () => {
           <img
             src={post.image_file_name ? post.image_file_name : "blog_image.jpg"}
             alt={post.title}
-            style={{ width: "500px", height: "200px" }}
+            style={{ width: "500px", height: "200px", display: "block",
+              margin: "0 auto"}}
           />
-          <p>{post.body}</p>
+          <p style={{ display: "block", textAlign: "center", marginBottom: "100px"}}>{post.body}</p>
         </div>
       ))}
     </div>
@@ -63,3 +64,5 @@ const PostList = () => {
 };
 
 export default PostList;
+
+

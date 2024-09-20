@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import SideBar from './components/SideBar';
 import PostDetails from './features/posts/PostDetails';
 import CreatePost from './features/posts/CreatePost';
+import EditPost from './features/posts/EditPost';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<PostList />} />
             <Route path="/posts/:id" element={<PostDetails />} />
             <Route path="/new" element={<CreatePost />} />
+            <Route path="/posts/:id/edit" element={<EditPost />} />
           </Routes>
         </main>
         <aside className="sidebar">

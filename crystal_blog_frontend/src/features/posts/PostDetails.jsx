@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../../constants";
 
 const PostDetails = () => {
@@ -7,6 +7,7 @@ const PostDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate(); // To redirect user after delete or edit
 
   useEffect(() => {
     const fetchCurrentPost = async () => {
@@ -30,6 +31,28 @@ const PostDetails = () => {
     fetchCurrentPost();
   }, [id]);
 
+  // Function to handle delete
+  const handleDelete = async (e) => {
+    e.preventDefault(); // Prevent default link behavior
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`${API_URL}/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        // Redirect to post list after deletion
+        navigate("/");
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -50,12 +73,31 @@ const PostDetails = () => {
         />
       )}
       {post.body ? <p>{post.body}</p> : <p>No content available.</p>}
+
+      <div>
+        {/* Edit Post Link */}
+        <Link to={`/posts/${post.id}/edit`} className="submit-button" style={ { display: "inline-block"} }>
+          Edit Post
+        </Link>
+      </div>
+
+      <div>
+        {/* Delete Post Link */}
+        <Link
+          to="#"
+          onClick={handleDelete} // This will handle the delete request
+          className="submit-button"
+          style={ { display: "inline-block"} }
+        >
+          Delete Post
+        </Link>
+      </div>
+
       <div>
         <Link to="/">Back to Posts</Link>
       </div>
     </div>
   );
-  
 };
 
 export default PostDetails;

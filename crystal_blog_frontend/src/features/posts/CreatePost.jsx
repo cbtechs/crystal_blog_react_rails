@@ -25,7 +25,7 @@ const CreatePost = () => {
                 body: JSON.stringify(postData)
             })
             if (response.ok) {
-                navigate("/");
+                navigate("/posts/:id");
             }
         };
     

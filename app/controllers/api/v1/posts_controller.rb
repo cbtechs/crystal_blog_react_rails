@@ -23,6 +23,7 @@ class Api::V1::PostsController < ApplicationController
       # we cannot render the post because we are now in /api/v1/posts
       # so we need to fix  the locattion
       # render json: @post, status: :created, location: @post
+      # Return the post object with the ID for the frontend
       render json: @post, status: :created, location: api_v1_post_url(@post)
     else
       render json: @post.errors, status: :unprocessable_entity

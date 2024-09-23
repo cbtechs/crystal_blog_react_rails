@@ -74,23 +74,22 @@ const PostDetails = () => {
       )}
       {post.body ? <p>{post.body}</p> : <p>No content available.</p>}
 
-      <div>
+      <div className="update-button">
         {/* Edit Post Link */}
-        <Link to={`/posts/${post.id}/edit`} className="submit-button" style={ { display: "inline-block"} }>
+        <Link to={`/posts/${post.id}/edit`} >
           Edit Post
         </Link>
-      </div>
+  
 
-      <div>
-        {/* Delete Post Link */}
-        <Link
-          to="#"
+     
+        {/* Delete Post button */}
+        <button
           onClick={handleDelete} // This will handle the delete request
-          className="submit-button"
-          style={ { display: "inline-block"} }
+          // className="submit-button"
+          // style={ { display: "inline-block"} }
         >
           Delete Post
-        </Link>
+        </button>
       </div>
 
       <div>
